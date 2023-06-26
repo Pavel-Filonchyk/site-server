@@ -2,12 +2,14 @@ import User from '../Schemes/User.js'
 
 class ControllerEditPersonalData {                                       
     async editPersonalData(req, res) { 
-        const userName = req.body.userName 
-        console.log(userName)                                     
+        const user = req.body.userName
+        const value = user.value    
+
         try {
-            const userData = await User.findOne({userName})           
-            res.status(200).json(userData)                                    
-        } catch (e){
+            const users = await User.deleteMany({value})
+            const userUpdate = await User.create(user) 
+            res.status(200).json(userUpdate)                                    
+        } catch (e) {
             console.log(e)
             res.status(500).json(e)                                       
         }

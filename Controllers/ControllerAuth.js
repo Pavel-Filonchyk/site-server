@@ -20,8 +20,8 @@ class ControllerAuth {
             if (!errors.isEmpty()) {
                 return res.status(400).json({message: 'Registration error', errors})
             }
-
-            const {userName, password, role, email, value} = req.body                               
+            console.log(req.body)
+            const {userName, password, role, phone, email, value} = req.body                               
             const candidate = await User.findOne({userName})                     
             if (candidate) {
                 return res.status(400).json({message: 'User with this name exists'})
@@ -32,7 +32,7 @@ class ControllerAuth {
             const userRole = await Role.findOne({value: 'User'})                 
             //const user = new User({userName, password: hashPassword, roles: [userRole.value]})   
             //await user.save()
-            const userCreate = await User.create({userName, password: hashPassword, email, value})
+            const userCreate = await User.create({userName, password: hashPassword, email, role, phone, value})
             const token = generateAccessToken(userCreate._id, userCreate.roles) 
                 return res.json({token, userName: userCreate.userName})                                           
                 ///////////////////////////////////////////////////////
